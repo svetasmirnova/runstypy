@@ -1,0 +1,67 @@
+name: example
+sudo: false
+tests:
+  - name: "test1"
+    cmd: "example.sh"
+    args:
+      - "--stdout=Hello World!"
+      - "--stderr=Error occurred!"
+      - "--return-code=255"
+      - "--directories=dir1,dir2,{{hostname}}"
+      - "--files=file1.txt,file2.txt,{{hostname}}/file3.txt"
+    expected:
+      stdout: "Hello World!"
+      stderr: "Error occurred!"
+      return_code: 255
+      dirs:
+        - "dir1"
+        - "dir2"
+        - "{{hostname}}"
+      files:
+        - "file1.txt"
+        - "file2.txt"
+        - "{{hostname}}/file3.txt"
+    notExpected:
+      stdout: "Goodbye World!"
+      stderr: "No error!"
+      return_code: 0
+      dirs:
+        - "dir3"
+      files:
+        - "file4.txt"
+    cleanup:
+      - "rm -rf dir1 dir2 {{hostname}}"
+      - "rm -f file1.txt file2.txt {{hostname}}/file3.txt"
+  - name: "test2"
+    cmd: "example.sh"
+    args:
+      - "--stdout=Another test!"
+      - "--stderr=No issues!"
+      - "--return-code=0"
+      - "--directories=dir3,{{hostname}}/dir4"
+      - "--files=file4.txt,{{hostname}}/file5.txt"
+    expected:
+      stdout:
+        file: "test2.stdout"
+        isre: false
+      stderr:
+        file: "test2.stderr"
+        isre: true
+      return_code: 0
+      dirs:
+        - "dir3"
+        - "{{hostname}}/dir4"
+      files:
+        - "file4.txt"
+        - "{{hostname}}/file5.txt"
+    notExpected:
+      stdout: "Unexpected output!"
+      stderr: "Something went wrong!"
+      return_code: "!= 0"
+      dirs:
+        - "dir5"
+      files:
+        - "file6.txt"
+    cleanup:
+      - "rm -rf dir3 {{hostname}}/dir4"
+      - "rm -f file4.txt {{hostname}}/file5.txt"
