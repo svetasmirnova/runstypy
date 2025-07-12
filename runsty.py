@@ -2,7 +2,7 @@
 """Run tests for snippets"""
 
 """
-Snippets defined in the YAML files with the following structure:
+Tests defined in the YAML files with the following structure:
 
 ```yaml
 name: snippet_name
