@@ -32,7 +32,7 @@ If you want to run tests only for one snippet or a few of them, specify the test
 ~/project-root$ /path/to/runsty.py snippet1.yaml
 ```
 
-Temporary files, created by the tests, are stored in the directory `project-root/tests/snippets/support-files/tmp` and removed after testing finished.
+Temporary files, created by the tests, are stored in the directory `project-root/tests/snippets/support-files/tmp` and removed after the testing is finished.
 
 ## Test files format
 
@@ -79,4 +79,15 @@ Wildcards can be used in the `files` and `dirs` sections to match multiple files
 
 If you provide a file with expected or not expected STDOUT or STDERR content, you can use regular expressions. In this case, parameter `isre` should be explicitly set to `true`.
 
-If your tests create artefacts that can affect further tests, you can use cleanup action to remove those artefacts. You can define any scriptable task in the cleanup actions.
+If your tests create artefacts that can affect further tests, you can use cleanup action to remove those artefacts. You can define any scriptable task in the cleanup section.
+
+## Environment
+
+If you want to run the script in the layout that is different from the default, use environment variables:
+
+- `SNIPPETS`: path to the snippets directory
+- `TESTS`: path to the tests directory
+- `SUPPORT_FILES`: path to the support-files directory
+- `TMP_DIR`: name of the temporary directory
+
+All paths should be relative to the project root.
