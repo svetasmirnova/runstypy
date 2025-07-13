@@ -24,7 +24,7 @@ project-root/
 ├── tests/
 │   └── snippets/                       # Test definitions for snippets
 │       ├── snippet1.yaml               # YAML test cases for snippet1.sh
-│       └── snippet2.yaml               # YAML test cases for snippet2.sh
+│       ├── snippet2.yaml               # YAML test cases for snippet2.sh
 │       └── support-files/              # (optional) Extra files needed for tests (e.g., expected output)
 │           └── snippet1/
 │               ├── stdout.expected      # Expected stdout for a test
