@@ -1,9 +1,20 @@
 # runstypy
-Python script to run tests defined in YAML files for snippets invoked from command line like Bash scripts.
 
-## Introduction
+**runstypy** is a Python script for automated testing of Bash and shell script snippets using YAML-based test definitions. It is designed for developers and DevOps engineers who want to ensure the reliability of their shell scripts with structured, repeatable tests.
 
-The script expects the following code layout:
+## Features
+
+- **Automated testing** for Bash and shell scripts
+- **YAML-based test definitions** for clarity and flexibility
+- **Support for expected and unexpected outputs** (stdout, stderr, files, directories, return code)
+- **Regular expression matching** for output validation
+- **Variable substitution** in test cases
+- **Customizable environment** via environment variables
+- **Automatic cleanup** of test artefacts
+
+
+## Directory Structure Example
+
 
 ```
 project-root/
@@ -20,23 +31,30 @@ project-root/
 │               ├── stderr.expected      # Expected stderr for a test
 │               └── stderr.not_expected  # Output that should not appear in stderr
 ```
-With the said layout, cd to project-root and run `runsty.py`:
+> **Note:** The `support-files` directory is optional and only needed if your tests require extra files (such as expected output).
 
-```
-~/project-root$ /path/to/runsty.py
-```
+## Getting Started
 
-If you want to run tests only for one snippet or a few of them, specify the test name as a command parameter.
+1. **Navigate to your project root:**
+    ```
+    cd ~/project-root
+    ```
 
-```
-~/project-root$ /path/to/runsty.py snippet1.yaml
-```
+2. **Run all tests:**
+    ```
+    /path/to/runsty.py
+    ```
 
-Temporary files, created by the tests, are stored in the directory `project-root/tests/snippets/support-files/tmp` and removed after the testing is finished.
+3. **Run tests for a specific snippet:**
+    ```
+    /path/to/runsty.py snippet1.yaml
+    ```
 
-## Test files format
+Temporary files created by the tests are stored in `project-root/tests/snippets/support-files/tmp` and are removed after testing.
 
-Tests defined in the YAML files should have the following structure:
+## YAML Test File Format
+
+Define your tests in YAML files as follows:
 
 ```yaml
 name: snippet_name
@@ -66,28 +84,26 @@ tests:
             dirs: [dir1, dir2, ...]
             files: [file1, file2, ...]
         cleanup: [command_to_cleanup]
-[ 
-    [- name: another_test_name
-        ...]
-...]
+    # Add more tests as needed
 ```
 
-Test may use variables in the form of `{{variable_name}}` which will be substituted with actual values.
-Variables can be defined in the script, such as `hostname`, and can be used in the YAML files. Currently only `hostname` is defined.
+- **Variables:** Use `{{variable_name}}` for variable substitution (e.g., `hostname`). Currently, only `hostname` is defined.
+- **Wildcards:** Use wildcards in `files` and `dirs` to match multiple files or directories.
+- **Regular Expressions:** Set `isre: true` to use regex matching for output files.
+- **Cleanup:** Use the `cleanup` section to remove artefacts created by tests. You can define any scriptable task in the cleanup section.
 
-Wildcards can be used in the `files` and `dirs` sections to match multiple files or directories.
+## Environment Variables
 
-If you provide a file with expected or not expected STDOUT or STDERR content, you can use regular expressions. In this case, parameter `isre` should be explicitly set to `true`.
-
-If your tests create artefacts that can affect further tests, you can use cleanup action to remove those artefacts. You can define any scriptable task in the cleanup section.
-
-## Environment
-
-If you want to run the script in the layout that is different from the default, use environment variables:
+Customize the script layout using these environment variables (all paths are relative to the project root):
 
 - `SNIPPETS`: path to the snippets directory
 - `TESTS`: path to the tests directory
 - `SUPPORT_FILES`: path to the support-files directory
 - `TMP_DIR`: name of the temporary directory
 
-All paths should be relative to the project root.
+## Why use runstypy?
+
+- **Automate** your shell script testing process
+- **Increase reliability** of your Bash and shell scripts
+- **Easily integrate** with CI/CD pipelines
+- **Flexible** and **extensible** for a variety of testing needs
