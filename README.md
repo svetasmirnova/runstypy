@@ -87,7 +87,7 @@ tests:
     # Add more tests as needed
 ```
 
-- **Variables:** Use `{{variable_name}}` for variable substitution (e.g., `hostname`). Currently, only `hostname` is defined.
+- **Variables:** Use `{{variable_name}}` for variable substitution (e.g., `hostname`). Currently, only `hostname` and `date` are defined.
 - **Wildcards:** Use wildcards in `files` and `dirs` to match multiple files or directories.
 - **Regular Expressions:** Set `isre: true` to use regex matching for output files.
 - **Cleanup:** Use the `cleanup` section to remove artefacts created by tests. You can define any scriptable task in the cleanup section.

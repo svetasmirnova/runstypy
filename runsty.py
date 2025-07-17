@@ -58,10 +58,12 @@ import socket
 import shutil
 import sys
 import time
+from datetime import datetime
 
 # Variables to be substituted in the YAML files
 variables = {
     'hostname': socket.gethostname(),
+    'date': datetime.now().strftime("%Y-%m-%d"),
 }
 
 class TestFailedException(Exception):
